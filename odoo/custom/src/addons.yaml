@@ -1,0 +1,35 @@
+odoo/addons:
+  - "*"
+
+odoo/odoo/addons:
+  - "*"
+
+apps2grow/apps:
+  - "*"
+
+apps2grow/survey:
+  - "*"
+
+OCA/account-analytic:
+  - "*"
+
+OCA/account-financial-reporting:
+  - "*"
+
+OCA/account-financial-tools:
+  - "*"
+
+OCA/reporting-engine:
+  - "*"
+
+OCA/server-backend:
+  - "*"
+
+OCA/server-tools:
+  - "*"
+
+OCA/server-ux:
+  - "*"
+
+OCA/web:
+  - "*"
