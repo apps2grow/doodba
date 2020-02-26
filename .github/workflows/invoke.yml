@@ -1,0 +1,38 @@
+name: lint
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  invoke:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        task:
+          - lint
+          - test
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+      - name: set PY
+        run:
+          echo "::set-env name=PY::$(python --version --version | sha256sum | cut -d' '
+          -f1)"
+      - uses: actions/cache@v1
+        with:
+          path: .venv
+          key: venv|${{ env.PY }}|${{ hashFiles('poetry.lock') }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.poetry
+          key: poetry|${{ env.PY }}|${{ hashFiles('poetry.lock') }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+      - run: git config user.name CI
+      - run: git config user.email CI@GITHUB
+      - run: pip install invoke
+      - run: env PATH="~/.poetry/bin:$PATH" invoke ${{ matrix.task }}
